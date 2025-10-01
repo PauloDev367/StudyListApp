@@ -8,22 +8,24 @@ block content %}
 
         <div class="card-body">
           <h5 class="card-title text-center">Cadastrar</h5>
-          <form class="form-signin">
+          <form class="form-signin" method="post" action="/register">
             <div class="form-label-group">
               <input
                 type="text"
-                id="nome"
+                id="username"
+                name="username"
                 class="form-control"
                 placeholder="Nome de usuário"
                 required
               />
-              <label for="nome">Nome de usuário</label>
+              <label for="username">Nome de usuário</label>
             </div>
 
             <div class="form-label-group">
               <input
                 type="email"
                 id="inputEmail"
+                name="inputEmail"
                 class="form-control"
                 placeholder="Endereço de email"
                 required
@@ -36,6 +38,7 @@ block content %}
               <input
                 type="password"
                 id="inputPassword"
+                name="inputPassword"
                 class="form-control"
                 placeholder="Senha"
                 required
