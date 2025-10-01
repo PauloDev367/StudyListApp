@@ -8,11 +8,12 @@ block content %}
 
         <div class="card-body">
           <h5 class="card-title text-center">Acesse sua Conta</h5>
-          <form class="form-signin">
+          <form class="form-signin" method="post" action="/login">
             <div class="form-label-group">
               <input
                 type="email"
                 id="inputEmail"
+                name="inputEmail"
                 class="form-control"
                 placeholder="Endereço de email"
                 required
@@ -25,6 +26,7 @@ block content %}
               <input
                 type="password"
                 id="inputPassword"
+                name="inputPassword"
                 class="form-control"
                 placeholder="Senha"
                 required
