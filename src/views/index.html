@@ -1,11 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    Ola
-</body>
-</html>
+{% extends 'layout.html' %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block content %}
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Bem-vindo ao Meu Site!</h1>
+            <p class="col-md-8 fs-4">Esta página está usando o layout base, mas este conteúdo é específico do index.html.</p>
+        </div>
+    </div>
+{% endblock %}
