@@ -1,0 +1,100 @@
+{% extends 'layout.html' %} {% block title %}Página Inicial{% endblock %} {%
+block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      
+    <div class="mb-3 text-right">
+      <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalNewCard">
+        Cadastrar novo estudo
+        <i class="fa-regular fa-square-plus"></i>
+      </button>
+    </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h2 class="mb-0">Meus estudos</h1>
+        </div>
+        <div class="card-body">
+            <!-- table html de cards -->
+             <table class="table">
+               <thead>
+                 <tr>
+                   <th>Nome</th>
+                   <th>Descrição</th>
+                   <th>Status</th>
+                   <th>Ações</th>
+                 </tr>
+               </thead>
+               <tbody>
+                 {% for card in cards %}
+                 <tr>
+                   <td>{{ card.name }}</td>
+                   <td>{{ card.description }}</td>
+                    <td>{{ card.status }}</td>
+                   <td>
+                     <a href="/admin/card/{{ card.id }}/study" class="btn btn-sm btn-warning">
+                       Acessar estudo
+                       <i class="fa-solid fa-arrow-right"></i>
+                     </a>
+                     <button class="btn btn-sm btn-outline-info btn-edit-card"
+                       data-cardId="{{ card.id }}"
+                       data-toggle="modal" data-target="#modalEditCard">
+                       <i class="fa-solid fa-pen-to-square"></i>
+                     </button>
+                     <form action="/admin/cards/{{ card.id }}/delete" method="POST" style="display:inline;">
+                       <input type="hidden" name="_method" value="DELETE">
+                       <button type="submit" class="btn btn-sm btn-danger">
+                         Deletar card
+                         <i class="fa-solid fa-trash"></i>
+                       </button>
+                     </form>
+                   </td>
+                 </tr>
+                 {% endfor %}
+               </tbody>
+             </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal adicionar estudo -->
+<div class="modal fade" id="modalNewCard" tabindex="-1" role="dialog" aria-labelledby="modalNewCardLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNewCardLabel">Cadastrar novo estudo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/admin/container/{{container.id}}/cards" method="POST">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="cardName">Nome do estudo</label>
+            <input type="text" class="form-control" id="cardName" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="cardDescription">Descrição do estudo</label>
+            <textarea class="form-control" id="cardDescription" name="description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="cardLink">Link do estudo</label>
+            <input type="url" class="form-control" id="cardLink" name="link">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-info btn-sm">
+            Cadastrar
+            <i class="fa-regular fa-square-plus"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>  
+
+{% endblock %}

@@ -2,7 +2,9 @@ from flask import render_template, request, redirect, url_for, session
 from src.data.db_context import app
 from src.middleware.auth_middleware import login_required 
 from src.services.study_container_service import StudyContainerService
+from src.services.study_service import StudyService
 
+study_service = StudyService()
 study_container_service = StudyContainerService()
 @app.route('/admin/containers')
 @login_required
@@ -37,3 +39,13 @@ def edit_container(container_id):
     if name and description:
         study_container_service.update_container(container_id, name, description, user_id)
     return redirect(url_for('containers'))
+
+@app.route('/admin/container/<int:container_id>/cards')
+@login_required
+def view_container_cards(container_id):
+    user_id = session.get('user_id')
+    container = study_container_service.get_container_by_id(container_id, user_id)
+    if not container:
+        return redirect(url_for('containers'))
+    studies = study_service.get_all_container_studies(container_id, user_id)
+    return render_template('study/study_cards.html', container=container, studies=studies)
