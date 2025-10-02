@@ -20,3 +20,10 @@ def containers_post():
     if name and description:
         study_container_service.create_container(name, description, user_id)
     return redirect(url_for('containers'))
+
+@app.route('/admin/containers/<int:container_id>/delete', methods=['POST'])
+@login_required
+def delete_container(container_id):
+    user_id = session.get('user_id')
+    study_container_service.delete_container(container_id, user_id)
+    return redirect(url_for('containers'))
