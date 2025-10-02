@@ -28,6 +28,6 @@ def login_post():
     user = user_service.login_user(email, password)
     if user:
         print(f"User {user.username} logged in successfully.")
-        return redirect('/containers')
+        return redirect('/admin/containers')
     print("Login failed. Invalid email or password.")
     return redirect('/')

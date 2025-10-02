@@ -2,7 +2,6 @@ from src.models.user import User
 from src.data.db_context import db
 from flask import session
 
-
 class UserService:
     @staticmethod
     def create_user(username, email, password):
@@ -20,3 +19,8 @@ class UserService:
         user = User.query.filter_by(email=email, password=password).first()
         session['user_id'] = user.id if user else None
         return user
+    
+    @staticmethod
+    def logout_user():
+        session.pop('user_id', None)
+        return True
