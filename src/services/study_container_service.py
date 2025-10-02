@@ -47,3 +47,13 @@ class StudyContainerService:
             db.session.commit()
             return True
         return False
+    
+    @staticmethod
+    def update_container(container_id, name, description, user_id):
+        container = StudyContainerService.get_container_by_id(container_id, user_id)
+        if container:
+            container.name = name
+            container.description = description
+            db.session.commit()
+            return container
+        return None

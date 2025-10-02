@@ -27,3 +27,13 @@ def delete_container(container_id):
     user_id = session.get('user_id')
     study_container_service.delete_container(container_id, user_id)
     return redirect(url_for('containers'))
+
+@app.route('/admin/containers/<int:container_id>/edit', methods=['POST'])
+@login_required
+def edit_container(container_id):
+    name = request.form.get('editCardName')
+    description = request.form.get('editCardDescription')
+    user_id = session.get('user_id')
+    if name and description:
+        study_container_service.update_container(container_id, name, description, user_id)
+    return redirect(url_for('containers'))

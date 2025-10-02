@@ -21,7 +21,14 @@ block content %}
                 <div class="col-12 col-md-4">
                   <div class="card mb-3">
                     <div class="card-body">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
                       <h5 class="card-title">{{ container.name }}</h5>
+                        <button class="btn btn-sm btn-outline-info btn-edit-card"
+                          data-cardId="{{ container.id }}"
+                          data-toggle="modal" data-target="#modalEditCard">
+                          <i class="fa-solid fa-pen-to-square"></i>
+                        </button>
+                      </div>
                       <p class="card-text">{{ container.description }}</p>
                       <a href="/study-cards/{{ container.id }}" class="btn btn-sm btn-warning">
                         Acessar cards
@@ -45,6 +52,8 @@ block content %}
   </div>
 </div>
 
+
+<!-- Modal Novo Card -->
 <div class="modal fade" id="modalNewCard" tabindex="-1" role="dialog" aria-labelledby="modalNewCardLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -77,4 +86,51 @@ block content %}
   </div>
 </div>
 
+<!-- Modal Editar Cards -->
+<div class="modal fade" id="modalEditCard" tabindex="-1" role="dialog" aria-labelledby="modalEditCardLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditCardLabel">Editar card</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/admin/containers" method="POST">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="editCardName">Nome do card</label>
+            <input type="text" class="form-control" id="editCardName" name="editCardName" placeholder="Digite o nome do card">
+          </div>
+          <div class="form-group">    
+            <label for="editCardDescription">Descrição do card</label>
+            <textarea class="form-control" id="editCardDescription" name="editCardDescription" rows="3" placeholder="Digite a descrição do card"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-info btn-sm">
+            Salvar alterações
+            <i class="fa-solid fa-floppy-disk"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('.btn-edit-card').on('click', function() {
+      const cardId = $(this).data('cardid');
+      const cardName = $(this).closest('.card-body').find('.card-title').text();
+      const cardDescription = $(this).closest('.card-body').find('.card-text').text();
+
+      $('#editCardName').val(cardName);
+      $('#editCardDescription').val(cardDescription);
+
+      $('#modalEditCard form').attr('action', `/admin/containers/${cardId}/edit`);
+    });
+  });
+</script>
 {% endblock %}
