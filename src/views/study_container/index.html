@@ -3,7 +3,69 @@ block content %}
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h2>Olá</h2>
+      
+    <div class="mb-3 text-right">
+      <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalNewCard">
+        Cadastrar novo card
+        <i class="fa-regular fa-square-plus"></i>
+      </button>
+    </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h2 class="mb-0">Meus cards</h1>
+        </div>
+        <div class="card-body">
+            <div class="row">
+              {% for container in containers %}
+                <div class="col-12 col-md-4">
+                  <div class="card mb-3">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ container.name }}</h5>
+                      <p class="card-text">{{ container.description }}</p>
+                      <a href="/study-cards/{{ container.id }}" class="btn btn-sm btn-warning">
+                        Acessar cards
+                        <i class="fa-solid fa-arrow-right"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalNewCard" tabindex="-1" role="dialog" aria-labelledby="modalNewCardLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNewCardLabel">Cadastrar novo card</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/admin/containers" method="POST">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="cardName">Nome do card</label>
+            <input type="text" class="form-control" id="cardName" name="cardName" placeholder="Digite o nome do card">
+          </div>
+          <div class="form-group">
+            <label for="cardDescription">Descrição do card</label>
+            <textarea class="form-control" id="cardDescription" name="cardDescription" rows="3" placeholder="Digite a descrição do card"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-info btn-sm">
+            Cadastrar
+            <i class="fa-regular fa-square-plus"></i>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

@@ -7,6 +7,7 @@ class StudyContainer(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     studies = db.relationship('Study', backref='container', lazy=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f"<StudyContainer {self.name}>"
