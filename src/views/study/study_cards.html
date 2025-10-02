@@ -20,29 +20,45 @@ block content %}
              <table class="table">
                <thead>
                  <tr>
+                   <th>Status</th>
                    <th>Nome</th>
                    <th>Descrição</th>
-                   <th>Status</th>
+                   <th>Link</th>
                    <th>Ações</th>
                  </tr>
                </thead>
                <tbody>
-                 {% for card in cards %}
+                 {% for card in studies %}
                  <tr>
-                   <td>{{ card.name }}</td>
-                   <td>{{ card.description }}</td>
-                    <td>{{ card.status }}</td>
                    <td>
-                     <a href="/admin/card/{{ card.id }}/study" class="btn btn-sm btn-warning">
-                       Acessar estudo
-                       <i class="fa-solid fa-arrow-right"></i>
-                     </a>
+                      {% if card.status == 'Pendente' %}
+                        <span class="badge badge-secondary">Pendente</span>
+                      {% elif card.status == 'new' %}
+                        <span class="badge badge-warning">Novo</span>
+                      {% elif card.status == 'Em Progresso' %}
+                        <span class="badge badge-primary">Em Progresso</span>
+                      {% elif card.status == 'Concluído' %}
+                        <span class="badge badge-success">Concluído</span>
+                      {% else %}
+                        <span class="badge badge-light">Desconhecido</span>
+                      {% endif %}
+                   </td>
+                   <td>{{ card.title }}</td>
+                   <td>{{ card.description }}</td>
+                    <td>
+                      {% if card.link %}
+                      <a href="{{ card.link }}" target="_blank">Acessar</a>
+                      {% else %}
+                      N/A
+                      {% endif %}
+                    </td>
+                   <td>
                      <button class="btn btn-sm btn-outline-info btn-edit-card"
                        data-cardId="{{ card.id }}"
                        data-toggle="modal" data-target="#modalEditCard">
                        <i class="fa-solid fa-pen-to-square"></i>
                      </button>
-                     <form action="/admin/cards/{{ card.id }}/delete" method="POST" style="display:inline;">
+                     <form action="/admin/container/{{container.id}}/cards/{{card.id}}/delete" method="POST" style="display:inline;">
                        <input type="hidden" name="_method" value="DELETE">
                        <button type="submit" class="btn btn-sm btn-danger">
                          Deletar card
@@ -96,5 +112,81 @@ block content %}
     </div>
   </div>
 </div>  
+
+<!-- Modal editar estudo -->
+<div class="modal fade" id="modalEditCard" tabindex="-1" role="dialog" aria-labelledby="modalEditCardLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditCardLabel">Editar estudo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="formEditCard" method="POST">
+        <input type="hidden" name="_method" value="PUT">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="editCardName">Nome do estudo</label>
+            <input type="text" class="form-control" id="editCardName" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="editCardDescription">Descrição do estudo</label>
+            <textarea class="form-control" id="editCardDescription" name="description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="editCardLink">Link do estudo</label>
+            <input type="url" class="form-control" id="editCardLink" name="link">
+          </div>
+          <div class="form-group">
+            <label for="editCardStatus">Status do estudo</label>
+            <select class="form-control" id="editCardStatus" name="status">
+              <option value="Pendente">Pendente</option>
+              <option value="Em Progresso">Em Progresso</option>
+              <option value="Concluído">Concluído</option>  
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer"> 
+          <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-info btn-sm">
+            Salvar alterações
+            <i class="fa-solid fa-pen-to-square"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+
+    $('.btn-edit-card').on('click', function() {
+      const cardId = $(this).data('cardid');
+      // Fazer uma requisição AJAX para obter os dados do card
+      $.ajax({
+        url: `/admin/container/{{container.id}}/cards/${cardId}`,
+        method: 'GET',
+        success: function(data) {
+          // Preencher o formulário do modal com os dados do card
+          $('#editCardName').val(data.title);
+          $('#editCardDescription').val(data.description);
+          $('#editCardLink').val(data.link);
+          $('#editCardStatus').val(data.status);
+          // Atualizar a ação do formulário para o card específico
+          $('#formEditCard').attr('action', `/admin/cards/${cardId}`);
+
+          // mudar a ação do formulário para o card específico /admin/container/<int:container_id>/cards/<int:study_id>/edit
+          $('#formEditCard').attr('action', `/admin/container/{{container.id}}/cards/${cardId}/edit`);
+        },
+        error: function() {
+          alert('Erro ao carregar os dados do estudo.');
+        }
+      });
+    });
+
+  });
+</script>
 
 {% endblock %}

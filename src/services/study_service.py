@@ -16,11 +16,15 @@ class StudyService:
     def get_study_by_id(self, study_id, user_id):
         return Study.query.filter_by(id=study_id, user_id=user_id).first()
 
-    def update_study(self, study_id, title, content, user_id):
+    def update_study(self, study_id, title, content, user_id, link=None, status=None):
         study = self.get_study_by_id(study_id, user_id)
         if study:
             study.title = title
             study.content = content
+            if link is not None:
+                study.link = link
+            if status is not None:
+                study.status = status
             db.session.commit()
         return study
 
