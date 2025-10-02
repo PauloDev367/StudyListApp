@@ -23,8 +23,14 @@
       <div class="container">
         <a class="navbar-brand" href="/">Meu App</a>
         <div class="collapse navbar-collapse">
-          <ul class="navbar-nav ms-auto">
-            <!-- <li class="nav-item"><a class="nav-link" href="/">Home</a></li> -->
+          <ul class="navbar-nav ml-auto">
+            {% if session.user_id %}
+            <li class="nav-item">
+              <form action="/logout" method="post">
+                <button class="nav-link btn btn-sm btn-danger">Logout</button>
+              </form>
+            </li>
+            {% endif %}
           </ul>
         </div>
       </div>

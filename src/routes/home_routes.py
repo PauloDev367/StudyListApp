@@ -1,6 +1,7 @@
 from flask import jsonify, render_template, request, redirect, url_for
 from src.data.db_context import app
 from src.services.user_service import UserService
+from src.middleware.auth_middleware import login_required 
 
 user_service = UserService()
 
@@ -31,3 +32,9 @@ def login_post():
         return redirect('/admin/containers')
     print("Login failed. Invalid email or password.")
     return redirect('/')
+
+@app.route('/logout', methods=['POST'])
+@login_required
+def logout():
+    user_service.logout_user()
+    return redirect(url_for('index'))
