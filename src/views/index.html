@@ -1,17 +1,13 @@
-{% extends 'layout.html' %} 
-{% block title %}Login{% endblock %} 
-
-{% block head %}
-{{ super() }}
+{% extends 'layout.html' %} {% block title %}Login{% endblock %} {% block head
+%} {{ super() }}
 <style>
-  /* Remove o espaçamento padrão do main para centralizar o card */
   .container {
     padding-top: 0;
     padding-bottom: 0;
   }
 
   .login-container {
-    min-height: 80vh; /* Ajusta a altura para centralização vertical */
+    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,11 +16,10 @@
   .login-card {
     border-radius: 15px;
     border: none;
-    overflow: hidden; /* Garante que a imagem não ultrapasse as bordas arredondadas */
-    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   }
 
-  /* Lado esquerdo com a imagem/gradiente */
   .login-card-img {
     background: linear-gradient(to top, #007bff, #0056b3);
     display: flex;
@@ -47,8 +42,6 @@
     font-weight: 300;
   }
 
-
-  /* Lado direito com o formulário */
   .login-card .card-body {
     padding: 3rem;
   }
@@ -58,7 +51,6 @@
     color: #343a40;
   }
 
-  /* Estilo customizado para os inputs com label flutuante */
   .form-label-group {
     position: relative;
     margin-bottom: 1rem;
@@ -66,7 +58,7 @@
   .form-label-group > input,
   .form-label-group > label {
     height: 3.125rem;
-    padding: .75rem;
+    padding: 0.75rem;
   }
   .form-label-group > label {
     position: absolute;
@@ -80,8 +72,8 @@
     pointer-events: none;
     cursor: text;
     border: 1px solid transparent;
-    border-radius: .25rem;
-    transition: all .1s ease-in-out;
+    border-radius: 0.25rem;
+    transition: all 0.1s ease-in-out;
   }
   .form-label-group input::-webkit-input-placeholder {
     color: transparent;
@@ -100,37 +92,32 @@
   }
   .form-label-group input:not(:placeholder-shown) {
     padding-top: 1.25rem;
-    padding-bottom: .25rem;
+    padding-bottom: 0.25rem;
   }
   .form-label-group input:not(:placeholder-shown) ~ label {
-    padding-top: .25rem;
-    padding-bottom: .25rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
     font-size: 12px;
     color: #777;
   }
-
 </style>
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <div class="login-container">
   <div class="col-lg-10 col-xl-9 mx-auto">
     <div class="card login-card flex-row my-5">
-      
-      <!-- Lado esquerdo com imagem -->
       <div class="login-card-img d-none d-md-flex col-md-5">
         <div class="icon">
           <i class="fa-solid fa-book-open-reader"></i>
         </div>
         <h2>Bem-vindo(a) de volta!</h2>
-        <p>Acesse sua conta para gerenciar seus estudos e continuar aprendendo.</p>
+        <p>
+          Acesse sua conta para gerenciar seus estudos e continuar aprendendo.
+        </p>
       </div>
 
-      <!-- Lado direito com o formulário -->
       <div class="card-body col-md-7">
         <h5 class="card-title text-center">Acesse sua Conta</h5>
         <form class="form-signin" method="post" action="/login">
-          
           <div class="form-label-group">
             <input
               type="email"

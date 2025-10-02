@@ -1,22 +1,12 @@
 {% extends 'layout.html' %} {% block title %}Meus Estudos{% endblock %} {% block
 head %} {{ super() }}
-<!-- Google Fonts: Poppins -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-  rel="stylesheet"
-/>
-
 <style>
-  /* --- Estilos Gerais --- */
   body {
     background-color: #f8f9fa;
     font-family: "Poppins", sans-serif;
     color: #343a40;
   }
 
-  /* --- Título Principal --- */
   .page-header {
     margin-bottom: 2rem;
     padding-bottom: 1rem;
@@ -27,7 +17,6 @@ head %} {{ super() }}
     color: #212529;
   }
 
-  /* --- Botão de Cadastro --- */
   .btn-gradient-primary {
     background-image: linear-gradient(to right, #007bff 0%, #0056b3 100%);
     border: none;
@@ -42,7 +31,6 @@ head %} {{ super() }}
     box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
   }
 
-  /* --- Card Principal que Agrupa Tudo --- */
   .main-content-card {
     background-color: #ffffff;
     border-radius: 12px;
@@ -51,10 +39,9 @@ head %} {{ super() }}
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
   }
 
-  /* --- Estilos para a Tabela --- */
   .table {
     border-collapse: separate;
-    border-spacing: 0 10px; /* Adiciona espaçamento vertical entre as linhas */
+    border-spacing: 0 10px;
   }
   .table thead th {
     border-bottom: 2px solid #dee2e6;
@@ -83,7 +70,6 @@ head %} {{ super() }}
     margin: 0 2px;
   }
 
-  /* --- Estilo para os Badges de Status --- */
   .badge {
     font-size: 0.8rem;
     font-weight: 500;
@@ -106,7 +92,6 @@ head %} {{ super() }}
     color: #383d41;
   }
 
-  /* --- Estilo dos Modais --- */
   .modal-content {
     border-radius: 12px;
     border: none;
@@ -225,7 +210,6 @@ head %} {{ super() }}
   </div>
 </div>
 
-<!-- Modal adicionar estudo -->
 <div
   class="modal fade"
   id="modalNewCard"
@@ -289,7 +273,6 @@ head %} {{ super() }}
   </div>
 </div>
 
-<!-- Modal editar estudo -->
 <div
   class="modal fade"
   id="modalEditCard"
@@ -369,18 +352,15 @@ head %} {{ super() }}
   $(document).ready(function () {
     $(".btn-edit-card").on("click", function () {
       const cardId = $(this).data("cardid");
-      // Fazer uma requisição AJAX para obter os dados do card
       $.ajax({
         url: `/admin/container/{{container.id}}/cards/${cardId}`,
         method: "GET",
         success: function (data) {
-          // Preencher o formulário do modal com os dados do card
           $("#editCardName").val(data.title);
           $("#editCardDescription").val(data.description);
           $("#editCardLink").val(data.link);
           $("#editCardStatus").val(data.status);
 
-          // Atualizar a ação do formulário para o card específico
           $("#formEditCard").attr(
             "action",
             `/admin/container/{{container.id}}/cards/${cardId}/edit`
