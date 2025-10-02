@@ -1,53 +1,175 @@
-{% extends 'layout.html' %} {% block title %}Página Inicial{% endblock %} {%
-block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-lg-10 col-xl-9 mx-auto">
-      <div class="card card-signin flex-row my-5">
-        <div class="card-img-left d-none d-md-flex"></div>
+{% extends 'layout.html' %} 
+{% block title %}Login{% endblock %} 
 
-        <div class="card-body">
-          <h5 class="card-title text-center">Acesse sua Conta</h5>
-          <form class="form-signin" method="post" action="/login">
-            <div class="form-label-group">
-              <input
-                type="email"
-                id="inputEmail"
-                name="inputEmail"
-                class="form-control"
-                placeholder="Endereço de email"
-                required
-                autofocus
-              />
-              <label for="inputEmail">Endereço de email</label>
-            </div>
+{% block head %}
+{{ super() }}
+<style>
+  /* Remove o espaçamento padrão do main para centralizar o card */
+  .container {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 
-            <div class="form-label-group">
-              <input
-                type="password"
-                id="inputPassword"
-                name="inputPassword"
-                class="form-control"
-                placeholder="Senha"
-                required
-              />
-              <label for="inputPassword">Senha</label>
-            </div>
+  .login-container {
+    min-height: 80vh; /* Ajusta a altura para centralização vertical */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-            <button
-              class="btn btn-lg btn-primary btn-block text-uppercase"
-              type="submit"
-            >
-              Entrar
-            </button>
-          </form>
-          <a href="/register" class="d-block mt-2 small">
-            Não tem uma conta? Cadastre-se
-          </a>
+  .login-card {
+    border-radius: 15px;
+    border: none;
+    overflow: hidden; /* Garante que a imagem não ultrapasse as bordas arredondadas */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+  }
+
+  /* Lado esquerdo com a imagem/gradiente */
+  .login-card-img {
+    background: linear-gradient(to top, #007bff, #0056b3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 2rem;
+    text-align: center;
+  }
+  .login-card-img .icon {
+    font-size: 5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+  }
+  .login-card-img h2 {
+    font-weight: 600;
+  }
+  .login-card-img p {
+    font-weight: 300;
+  }
+
+
+  /* Lado direito com o formulário */
+  .login-card .card-body {
+    padding: 3rem;
+  }
+  .login-card .card-title {
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: #343a40;
+  }
+
+  /* Estilo customizado para os inputs com label flutuante */
+  .form-label-group {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  .form-label-group > input,
+  .form-label-group > label {
+    height: 3.125rem;
+    padding: .75rem;
+  }
+  .form-label-group > label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    margin-bottom: 0;
+    line-height: 1.5;
+    color: #495057;
+    pointer-events: none;
+    cursor: text;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    transition: all .1s ease-in-out;
+  }
+  .form-label-group input::-webkit-input-placeholder {
+    color: transparent;
+  }
+  .form-label-group input:-ms-input-placeholder {
+    color: transparent;
+  }
+  .form-label-group input::-ms-input-placeholder {
+    color: transparent;
+  }
+  .form-label-group input::-moz-placeholder {
+    color: transparent;
+  }
+  .form-label-group input::placeholder {
+    color: transparent;
+  }
+  .form-label-group input:not(:placeholder-shown) {
+    padding-top: 1.25rem;
+    padding-bottom: .25rem;
+  }
+  .form-label-group input:not(:placeholder-shown) ~ label {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    font-size: 12px;
+    color: #777;
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+  <div class="col-lg-10 col-xl-9 mx-auto">
+    <div class="card login-card flex-row my-5">
+      
+      <!-- Lado esquerdo com imagem -->
+      <div class="login-card-img d-none d-md-flex col-md-5">
+        <div class="icon">
+          <i class="fa-solid fa-book-open-reader"></i>
         </div>
+        <h2>Bem-vindo(a) de volta!</h2>
+        <p>Acesse sua conta para gerenciar seus estudos e continuar aprendendo.</p>
+      </div>
+
+      <!-- Lado direito com o formulário -->
+      <div class="card-body col-md-7">
+        <h5 class="card-title text-center">Acesse sua Conta</h5>
+        <form class="form-signin" method="post" action="/login">
+          
+          <div class="form-label-group">
+            <input
+              type="email"
+              id="inputEmail"
+              name="inputEmail"
+              class="form-control"
+              placeholder="Endereço de email"
+              required
+              autofocus
+            />
+            <label for="inputEmail">Endereço de email</label>
+          </div>
+
+          <div class="form-label-group">
+            <input
+              type="password"
+              id="inputPassword"
+              name="inputPassword"
+              class="form-control"
+              placeholder="Senha"
+              required
+            />
+            <label for="inputPassword">Senha</label>
+          </div>
+
+          <button
+            class="btn btn-lg btn-gradient-primary btn-block text-uppercase font-weight-bold"
+            type="submit"
+          >
+            Entrar
+          </button>
+          <div class="text-center mt-3">
+            <a href="/register" class="small">
+              Não tem uma conta? <strong>Cadastre-se</strong>
+            </a>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
-
 {% endblock %}

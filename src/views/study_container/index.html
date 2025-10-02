@@ -1,53 +1,219 @@
-{% extends 'layout.html' %} {% block title %}Página Inicial{% endblock %} {%
-block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-12">
+{% extends 'layout.html' %} 
+{% block title %}Página Inicial{% endblock %} 
+
+{% block head %}
+{{ super() }}
+<!-- Google Fonts: Poppins -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  /* --- Estilos Gerais --- */
+  body {
+    background-color: #f8f9fa; /* Um cinza muito claro para o fundo */
+    font-family: 'Poppins', sans-serif;
+    color: #343a40;
+  }
+
+  /* --- Título Principal --- */
+  .page-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #dee2e6;
+  }
+  .page-title {
+    font-weight: 600;
+    color: #212529;
+  }
+
+  /* --- Botão de Cadastro --- */
+  .btn-gradient-primary {
+    background-image: linear-gradient(to right, #007bff 0%, #0056b3 100%);
+    border: none;
+    color: white;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
+  }
+  .btn-gradient-primary:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+  }
+
+  /* --- Card Principal que Agrupa Tudo --- */
+  .main-content-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    border: none;
+    padding: 2rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  }
+
+  /* --- Estilo dos Cards Individuais --- */
+  .custom-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    height: 100%; /* Garante que os cards na mesma linha tenham a mesma altura */
+    display: flex;
+    flex-direction: column;
+  }
+  .custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  }
+  .custom-card .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Faz o corpo do card ocupar o espaço disponível */
+  }
+  .custom-card .card-title {
+    font-weight: 600;
+    color: #343a40;
+  }
+  .custom-card .card-text {
+    color: #6c757d;
+    font-size: 0.9rem;
+    flex-grow: 1; /* Empurra os botões para baixo */
+    margin-bottom: 1.5rem;
+  }
+
+  /* --- Botões de Ação nos Cards --- */
+  .card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem; /* Espaçamento entre os botões */
+  }
+
+  .btn-primary-custom {
+    background-color: #007bff;
+    border-color: #007bff;
+    font-weight: 500;
+  }
+  .btn-primary-custom:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+
+  /* --- Estilo do Dropdown de Ações (Editar/Deletar) --- */
+  .actions-dropdown .dropdown-toggle::after {
+    display: none; /* Esconde a seta padrão do dropdown */
+  }
+  .actions-dropdown .dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border: none;
+  }
+  .actions-dropdown .dropdown-item {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+  .dropdown-item .fa-solid {
+    margin-right: 0.5rem;
+    width: 16px; /* Alinha os ícones */
+  }
+  .text-info { color: #17a2b8 !important; }
+  .text-danger { color: #dc3545 !important; }
+
+  /* --- Estilo dos Modais --- */
+  .modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  }
+  .modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  .modal-title {
+    font-weight: 600;
+  }
+  .modal-footer {
+     background-color: #f8f9fa;
+     border-top: 1px solid #dee2e6;
+     border-bottom-left-radius: 12px;
+     border-bottom-right-radius: 12px;
+  }
+  .form-control {
+    border-radius: 8px;
+  }
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  
+  <div class="page-header d-flex justify-content-between align-items-center">
+    <h1 class="page-title mb-0">Meus Decks de Estudo</h1>
+    <button class="btn btn-gradient-primary" data-toggle="modal" data-target="#modalNewCard">
+      <i class="fa-solid fa-plus mr-2"></i>
+      Cadastrar novo Deck
+    </button>
+  </div>
       
-    <div class="mb-3 text-right">
-      <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#modalNewCard">
-        Cadastrar novo card
-        <i class="fa-regular fa-square-plus"></i>
-      </button>
-    </div>
-      
-      <div class="card">
-        <div class="card-header">
-          <h2 class="mb-0">Meus cards</h1>
-        </div>
-        <div class="card-body">
-            <div class="row">
-              {% for container in containers %}
-                <div class="col-12 col-md-4">
-                  <div class="card mb-3">
-                    <div class="card-body">
-                      <div class="d-flex justify-content-between align-items-center mb-2">
-                      <h5 class="card-title">{{ container.name }}</h5>
-                        <button class="btn btn-sm btn-outline-info btn-edit-card"
-                          data-cardId="{{ container.id }}"
+  <div class="card main-content-card">
+    <div class="card-body">
+        <div class="row">
+          
+          {% for container in containers %}
+            <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex align-items-stretch">
+              <div class="card custom-card w-100">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title">{{ container.name }}</h5>
+                    
+                    <!-- Dropdown de Ações -->
+                    <div class="dropdown actions-dropdown">
+                      <button class="btn btn-sm btn-light" type="button" id="dropdownMenuButton-{{ container.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-solid fa-ellipsis-v"></i>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton-{{ container.id }}">
+                        <button class="dropdown-item text-info btn-edit-card"
+                          data-card-id="{{ container.id }}"
+                          data-card-name="{{ container.name }}"
+                          data-card-description="{{ container.description }}"
                           data-toggle="modal" data-target="#modalEditCard">
-                          <i class="fa-solid fa-pen-to-square"></i>
+                          <i class="fa-solid fa-pen-to-square"></i> Editar
                         </button>
+                        <form action="/admin/containers/{{ container.id }}/delete" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este deck?');">
+                          <input type="hidden" name="_method" value="DELETE">
+                          <button type="submit" class="dropdown-item text-danger">
+                            <i class="fa-solid fa-trash"></i> Deletar
+                          </button>
+                        </form>
                       </div>
-                      <p class="card-text">{{ container.description }}</p>
-                      <a href="/admin/container/{{ container.id }}/cards" class="btn btn-sm btn-warning">
-                        Acessar cards
-                        <i class="fa-solid fa-arrow-right"></i>
-                      </a>
-                      <form action="/admin/containers/{{ container.id }}/delete" method="POST">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="btn btn-sm mt-2 btn-danger">
-                          Deletar card
-                          <i class="fa-solid fa-trash"></i>
-                        </button>
-                      </form>
                     </div>
                   </div>
+
+                  <p class="card-text">{{ container.description }}</p>
+
+                  <div class="card-actions mt-auto">
+                    <a href="/admin/container/{{ container.id }}/cards" class="btn btn-sm btn-primary-custom w-100">
+                      Acessar Cards
+                      <i class="fa-solid fa-arrow-right ml-2"></i>
+                    </a>
+                  </div>
                 </div>
-              {% endfor %}
+              </div>
             </div>
+          {% else %}
+            <div class="col-12 text-center py-5">
+              <p class="text-muted">Nenhum deck de estudo encontrado. Que tal criar um?</p>
+            </div>
+          {% endfor %}
+
         </div>
-      </div>
     </div>
   </div>
 </div>
@@ -58,7 +224,7 @@ block content %}
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalNewCardLabel">Cadastrar novo card</h5>
+        <h5 class="modal-title" id="modalNewCardLabel">Cadastrar Novo Deck</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -66,19 +232,19 @@ block content %}
       <form action="/admin/containers" method="POST">
         <div class="modal-body">
           <div class="form-group">
-            <label for="cardName">Nome do card</label>
-            <input type="text" class="form-control" id="cardName" name="cardName" placeholder="Digite o nome do card">
+            <label for="cardName">Nome do Deck</label>
+            <input type="text" class="form-control" id="cardName" name="cardName" placeholder="Ex: Biologia Celular" required>
           </div>
           <div class="form-group">
-            <label for="cardDescription">Descrição do card</label>
-            <textarea class="form-control" id="cardDescription" name="cardDescription" rows="3" placeholder="Digite a descrição do card"></textarea>
+            <label for="cardDescription">Descrição</label>
+            <textarea class="form-control" id="cardDescription" name="cardDescription" rows="3" placeholder="Ex: Conceitos básicos sobre células para a prova P1"></textarea>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-info btn-sm">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-check mr-2"></i>
             Cadastrar
-            <i class="fa-regular fa-square-plus"></i>
           </button>
         </div>
       </form>
@@ -86,32 +252,33 @@ block content %}
   </div>
 </div>
 
-<!-- Modal Editar Cards -->
+<!-- Modal Editar Card -->
 <div class="modal fade" id="modalEditCard" tabindex="-1" role="dialog" aria-labelledby="modalEditCardLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalEditCardLabel">Editar card</h5>
+        <h5 class="modal-title" id="modalEditCardLabel">Editar Deck</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="/admin/containers" method="POST">
+      <form id="editCardForm" method="POST">
+        <input type="hidden" name="_method" value="PUT"> <!-- Para Flask, talvez você use POST e manipule a lógica -->
         <div class="modal-body">
           <div class="form-group">
-            <label for="editCardName">Nome do card</label>
-            <input type="text" class="form-control" id="editCardName" name="editCardName" placeholder="Digite o nome do card">
+            <label for="editCardName">Nome do Deck</label>
+            <input type="text" class="form-control" id="editCardName" name="editCardName" placeholder="Digite o nome do deck" required>
           </div>
           <div class="form-group">    
-            <label for="editCardDescription">Descrição do card</label>
-            <textarea class="form-control" id="editCardDescription" name="editCardDescription" rows="3" placeholder="Digite a descrição do card"></textarea>
+            <label for="editCardDescription">Descrição</label>
+            <textarea class="form-control" id="editCardDescription" name="editCardDescription" rows="3" placeholder="Digite a descrição do deck"></textarea>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-info btn-sm">
-            Salvar alterações
-            <i class="fa-solid fa-floppy-disk"></i>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fa-solid fa-floppy-disk mr-2"></i>
+            Salvar Alterações
           </button>
         </div>
       </form>
@@ -120,16 +287,20 @@ block content %}
 </div>
 
 <script>
+  // O JQuery já deve estar carregado no seu layout.html
   $(document).ready(function() {
     $('.btn-edit-card').on('click', function() {
-      const cardId = $(this).data('cardid');
-      const cardName = $(this).closest('.card-body').find('.card-title').text();
-      const cardDescription = $(this).closest('.card-body').find('.card-text').text();
+      // Usando data attributes no próprio botão para simplificar
+      const cardId = $(this).data('card-id');
+      const cardName = $(this).data('card-name');
+      const cardDescription = $(this).data('card-description');
 
+      // Preenchendo os campos do modal de edição
       $('#editCardName').val(cardName);
       $('#editCardDescription').val(cardDescription);
 
-      $('#modalEditCard form').attr('action', `/admin/containers/${cardId}/edit`);
+      // Atualizando a action do formulário
+      $('#editCardForm').attr('action', `/admin/containers/${cardId}/edit`);
     });
   });
 </script>
